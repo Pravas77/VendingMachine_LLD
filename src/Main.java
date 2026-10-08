@@ -7,63 +7,28 @@ public class Main {
 
         System.out.println("Hello");
 
-        Item item1 = new Item(1,ItemType.LIMKA,10);
-        Item item2 = new Item(2,ItemType.COKE,10);
-
-        Coin coin1 = new Coin(1);
-        Coin coin2 = new Coin(2);
-        Coin coin5 = new Coin(5);
-        Coin coin10 = new Coin(10);
-
-        VendingMachine vendingMachine = new VendingMachine();
-
-        vendingMachine.addCoin(coin1);
-        vendingMachine.addCoin(coin2);
+        VendingMachine vendingMachine = new VendingMachine(new HashMap<>(Map.of(Item.PEPSI, 2)), Map.of(Coin.ONE, 1));
 
 
-        vendingMachine.addItem(item1);
-        vendingMachine.addItem(item2);
-
-        vendingMachine.setMachineState(new IdleState(vendingMachine));
-
-        // client
-        vendingMachine.proceedWithPayment();
-        vendingMachine.insertCoin(coin5);
-        vendingMachine.insertCoin(coin2);
-        vendingMachine.insertCoin(coin2);
-        vendingMachine.insertCoin(coin2);
-
-        vendingMachine.proceedToProductSelection();
-
-        List<Coin> coins1 = vendingMachine.selectProduct(1);
-        System.out.print("Returned change : ");
-        for (Coin coin : coins1) System.out.print(coin.getValue() + " ");
-        System.out.println();
-
-        Item item11 = vendingMachine.dispatch(1);
-        System.out.print("Dispatched item id: ");
-        System.out.println(item11.getId());
+        vendingMachine.proceedToPaymentState();
+        vendingMachine.insertCoin(Coin.FIVE);
+        vendingMachine.insertCoin(Coin.TWO);
+        vendingMachine.insertCoin(Coin.TWO);
+        vendingMachine.insertCoin(Coin.TWO);
+        vendingMachine.proceedToItemSelectionState();
+        System.out.println("Refund list : " + vendingMachine.selectItem(Item.PEPSI));
+        System.out.println("Dispatched product : " + vendingMachine.dispatchItem());
 
 
-
-        vendingMachine.proceedWithPayment();
-        vendingMachine.insertCoin(coin5);
-        vendingMachine.insertCoin(coin2);
-        vendingMachine.insertCoin(coin2);
-        vendingMachine.insertCoin(coin1);
-
-        vendingMachine.proceedToProductSelection();
-
-        List<Coin> coins2 = vendingMachine.selectProduct(2);
-        System.out.print("Returned change : ");
-        for (Coin coin : coins2) System.out.print(coin.getValue() + " ");
-        System.out.println();
-
-        Item item12 = vendingMachine.dispatch(2);
-        System.out.print("Dispatched item id: ");
-        System.out.println(item12.getId());
-
-
+        System.out.println("2nd run");
+        vendingMachine.proceedToPaymentState();
+        vendingMachine.insertCoin(Coin.FIVE);
+        vendingMachine.insertCoin(Coin.TWO);
+        vendingMachine.insertCoin(Coin.TWO);
+        vendingMachine.insertCoin(Coin.TWO);
+        vendingMachine.proceedToItemSelectionState();
+        System.out.println("Refund list : " + vendingMachine.selectItem(Item.PEPSI));
+        System.out.println("Dispatched product : " + vendingMachine.dispatchItem());
 
 
     }

@@ -1,49 +1,17 @@
-import java.util.Objects;
+public enum Item {
+    PEPSI(10), LIMKA(15), COKE(20);
 
-public class Item {
-    private int id;
-    private ItemType itemType;
-    private int price;
+    private int cost;
 
-    public Item(int id, ItemType itemType, int price) {
-        this.id = id;
-        this.itemType = itemType;
-        this.price = price;
+    private Item(int cost) {
+        this.cost = cost;
     }
 
-    public int getId() {
-        return id;
+    public int getCost() {
+        return cost;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public ItemType getItemType() {
-        return itemType;
-    }
-
-    public void setItemType(ItemType itemType) {
-        this.itemType = itemType;
-    }
-
-    public int getPrice() {
-        return price;
-    }
-
-    public void setPrice(int price) {
-        this.price = price;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
-        Item item = (Item) o;
-        return id == item.id && price == item.price && itemType == item.itemType;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, itemType, price);
+    public void setCost(int cost) {
+        this.cost = cost;
     }
 }

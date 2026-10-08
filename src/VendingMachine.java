@@ -1,12 +1,18 @@
 import java.util.*;
 
 public class VendingMachine {
-    private Map<Item,Integer> itemCount = new HashMap<>();
-    private Map<Coin,Integer> coinCount = new TreeMap<>((a,b) -> b.getValue()-a.getValue());
-    private List<Coin> insertions = new ArrayList<>();
     private MachineState machineState;
+    private Map<Item, Integer> itemCount;
+    private Map<Coin, Integer> coinCount;
+    private List<Coin> insertions;
+    private Item desiredItem;
 
-    public VendingMachine() {
+    public VendingMachine(Map<Item, Integer> itemCount, Map<Coin, Integer> coinCount) {
+        this.machineState = new IdleState();
+        this.itemCount = itemCount;
+        this.coinCount = coinCount;
+        this.insertions = new ArrayList<>();
+        this.desiredItem = null;
     }
 
     public Map<Item, Integer> getItemCount() {
@@ -33,6 +39,14 @@ public class VendingMachine {
         this.insertions = insertions;
     }
 
+    public Item getDesiredItem() {
+        return desiredItem;
+    }
+
+    public void setDesiredItem(Item desiredItem) {
+        this.desiredItem = desiredItem;
+    }
+
     public MachineState getMachineState() {
         return machineState;
     }
@@ -41,32 +55,29 @@ public class VendingMachine {
         this.machineState = machineState;
     }
 
-    public void proceedWithPayment(){
-        machineState.proceedWithPayment();
-    }
-    public void insertCoin(Coin coin){
-        machineState.insertCoin(coin);
-    }
-    public List<Coin> getfullRefund(){
-        return machineState.getfullRefund();
-    }
-    public void proceedToProductSelection(){
-        machineState.proceedToProductSelection();
-    }
-    public List<Coin> selectProduct(int itemId){
-        return machineState.selectProduct(itemId);
-    }
-    public Item dispatch(int itemId){
-        return machineState.dispatch(itemId);
+
+    public void proceedToPaymentState() {
+        machineState.proceedToPaymentState(this);
     }
 
-    public void addCoin(Coin coin){
-        int value = coinCount.getOrDefault(coin,0);
-        coinCount.put(coin,value + 1);
+    public void insertCoin(Coin coin) {
+        machineState.insertCoin(this, coin);
     }
 
-    public void addItem(Item item){
-        int value = itemCount.getOrDefault(item,0);
-        itemCount.put(item,value + 1);
+    public List<Coin> getFullRefund() {
+        return machineState.getFullRefund(this);
     }
+
+    public void proceedToItemSelectionState() {
+        machineState.proceedToItemSelectionState(this);
+    }
+
+    public List<Coin> selectItem(Item item) {
+        return machineState.selectItem(this, item);
+    }
+
+    public Item dispatchItem() {
+        return machineState.dispatchItem(this);
+    }
+
 }

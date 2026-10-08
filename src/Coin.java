@@ -1,25 +1,15 @@
 import java.util.Objects;
 
-public class Coin {
+public enum Coin {
+    ONE(1), TWO(2), FIVE(5), TEN(10);
+
     private int value;
 
-    public Coin(int value) {
+    private Coin(int value) {
         this.value = value;
     }
 
     public int getValue() {
         return value;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
-        Coin coin = (Coin) o;
-        return value == coin.value;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(value);
     }
 }
